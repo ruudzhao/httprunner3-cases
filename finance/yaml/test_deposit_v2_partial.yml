@@ -1,0 +1,11 @@
+url: "/bank/deposit/query/execute"
+method: "GET"
+data_base:
+  deposit_no: ${deposit_no}
+httprequests:
+  - testcases:
+    - eq: [ "status_code", 200 ]
+    - eq: [ "body.code", 0 ]
+    - eq: [ "body.data.amount", 123.36 ]
+    - lt: [ "time_span", 1 ]
+    - gt: [ "content_length", 10 ]
