@@ -16,7 +16,8 @@ teststeps:
       - data:
           3@: 
           unuse: 34
-          funct: '{{ "public.get_time_stamp(vars.pi)" }}'
+          funct: >-
+            {{ "public.get_time_stamp(vars.pi)" }}
         extract:
           account_no: body.data.account_no
           token: body.data.token
