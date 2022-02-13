@@ -2,6 +2,13 @@ config:
   name: "my first demo"
   base_url: "http://110.40.129.99:5000"
   headers: { "OAUTH": "97a8c4654c6b7a65bd0deac63881935e7503c477c9d3faebbbba64" }
+  variables: {"copyright": "大江老师(人称Ruud哥) 英文名：Ruud Zhao 2022"}
+  testcases:
+    - lt: [ "time_span", 1 ]
+    - gt: [ "content_length", 10 ]
+    - exp: >-
+        r.status_code == 200
+    - exp: "r.body.code == 0"
 
 teststeps:
   - url: "/account/login/execute"
@@ -24,11 +31,6 @@ teststeps:
         testcases:
           - eq: [ "status_code", 200 ]
           - eq: [ "body.code", 0 ]
-          - lt: [ "time_span", 1 ]
-          - gt: [ "content_length", 10 ]
-          - exp: >-
-              r.status_code == 200
-          - exp: "r.body.code == 0"
 
   - url: "/bank/deposit/execute/v2"
     method: "POST"
