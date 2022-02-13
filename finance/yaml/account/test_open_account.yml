@@ -1,0 +1,18 @@
+﻿config:
+  name: "my second demo"
+  base_url: "http://110.40.129.99:5000"
+  headers: { "OAUTH": "97a8c4654c6b7a65bd0deac63881935e7503c477c9d3faebbbba64" }
+
+teststeps:
+  - url: "/account/open/execute"
+    method: "POST"
+    data_base:
+      1@id_card_no: "522129194506057458"
+      2@real_name: "赵老师"
+    httprequests:
+      - testcases:
+          - eq: [ "status_code", 200 ]
+          - eq: [ "body.code", 0 ]
+          - lt: [ "time_span", 1 ]
+          - gt: [ "content_length", 10]
+          - ne: [ "body.msg", "失败"]

@@ -1,0 +1,64 @@
+config:
+  name: "my first demo"
+  base_url: "http://110.40.129.99:5000"
+  headers: { "OAUTH": "97a8c4654c6b7a65bd0deac63881935e7503c477c9d3faebbbba64" }
+  variables: {"copyright": "大江老师(人称Ruud哥) 英文名：Ruud Zhao 2022"}
+  testcases:
+    - lt: [ "time_span", 1 ]
+    - gt: [ "content_length", 10 ]
+    - exp: >-
+        r.status_code == 200
+    - exp: "r.body.code == 0"
+
+teststeps:
+  - url: "/account/login/execute"
+    method: "POST"
+    headers: { }
+    variables: {"pi": 3.14}
+    data_base:
+      1@card_no: "5856 8316 5568 5240 6185"
+      2@password: "067071"
+      3@unuseless: 2
+    httprequests:
+      - data:
+          3@: 
+          unuse: 34
+          funct: >-
+            <%- "{}-{}".format(public.get_time_stamp(svars.pi), "-str-") -%>
+        extract:
+          account_no: body.data.account_no
+          token: body.data.token
+        testcases:
+          - eq: [ "status_code", 200 ]
+          - eq: [ "body.code", 0 ]
+
+  - url: "/bank/deposit/execute/v2"
+    method: "POST"
+    headers: { }
+    data_base:
+      1@account_no: '<%- gvars.account_no -%>'
+      2@amount: 14523.45
+      3@period: 3
+      4@token: '<%- gvars.token -%>'
+      5@start_date: "2022-02-15"
+    httprequests:
+      - data:
+          2@: 4512.53
+          3@: 2
+        extract:
+          deposit_no: "body.data.deposit_no"
+        testcases:
+          - eq: [ "status_code", 200 ]
+          - eq: [ "body.code", 0 ]
+          - eq: [ "body.data.interest", 52.41 ]
+          - lt: [ "time_span", 1 ]
+          - gt: [ "content_length", 10 ]
+      - data:
+          2@: 123.36
+          3@: 3
+        extract:
+          deposit_no: "body.data.deposit_no"
+        testcases:
+          - eq: [ "body.data.interest", 15.23 ]
+
+  - include: test_deposit_v2_partial.yml

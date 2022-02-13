@@ -1,0 +1,5 @@
+# toml配置文件
+# 参考 https://github.com/toml-lang/toml
+
+[Report]
+  Title = "Httprunner3 接口自动化测试框架！"
