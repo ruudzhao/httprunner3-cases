@@ -17,7 +17,7 @@ teststeps:
           3@: 
           unuse: 34
           funct: >-
-            {{ "public.get_time_stamp(vars.pi)" }}
+            <%- "{}-{}".format(public.get_time_stamp(svars.pi), "-str-") -%>
         extract:
           account_no: body.data.account_no
           token: body.data.token
@@ -26,15 +26,18 @@ teststeps:
           - eq: [ "body.code", 0 ]
           - lt: [ "time_span", 1 ]
           - gt: [ "content_length", 10 ]
+          - exp: >-
+              r.status_code == 200
+          - exp: "r.body.code == 0"
 
   - url: "/bank/deposit/execute/v2"
     method: "POST"
     headers: { }
     data_base:
-      1@account_no: '{{ "gvars.account_no" }}'  #${account_no}
+      1@account_no: '<%- gvars.account_no -%>'
       2@amount: 14523.45
       3@period: 3
-      4@token: '{{ "gvars.token" }}'  #${token}
+      4@token: '<%- gvars.token -%>'
       5@start_date: "2022-02-15"
     httprequests:
       - data:

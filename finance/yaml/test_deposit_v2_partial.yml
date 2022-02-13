@@ -1,7 +1,8 @@
 url: "/bank/deposit/query/execute"
 method: "GET"
 data_base:
-  deposit_no: ${deposit_no}
+  deposit_no: >-
+    <%- gvars.deposit_no -%>
 httprequests:
   - testcases:
     - eq: [ "status_code", 200 ]
