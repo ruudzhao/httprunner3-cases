@@ -1,2 +1,7 @@
 report
 testcases
+.pytest_cache
+__pycache__
+allurereport
+allure-report
+httprunner3.log
